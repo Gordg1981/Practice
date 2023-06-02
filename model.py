@@ -10,32 +10,14 @@ def generate_id(length):
     return crypt_rand_string
 
 
-
-
-
 async def async_search(es_object, index, search_object):
   resp = await es_object.search(index = index, body = search_object ,size = 5)
   return resp
 
 
-
-
-async def async_create(es_object, index, body):
-  id = generate_id(20)
-  resp = await es_object.create(index=index, id = id ,document=body)
-  return [id, resp]
-
-
-
-
-
 async def async_update(es_object, index, id, body):
   resp = await es_object.update(index=index, id = id ,document=body)
   return [id, resp]
-
-
-
-
 
 async def async_delete(es_object, index, id):
     try:
@@ -43,9 +25,6 @@ async def async_delete(es_object, index, id):
       return "+"
     except:
        return "-"
-
-
-
 
 async def search(request):
   value = request
@@ -62,8 +41,6 @@ async def search(request):
   ret = await asyncio.create_task(async_search(es, index, search_object)) 
   return ret
 
-
-
 async def delete(request):
   id = request
   index = "tweets"
@@ -71,9 +48,6 @@ async def delete(request):
   es = AsyncElasticsearch("http://localhost:9200", http_auth = ('', '') )
   ret = await asyncio.create_task(async_delete(es, index, id)) 
   return ret
-
-
-
 
 async def update(request):
   body = request['id']
